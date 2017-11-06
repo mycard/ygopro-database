@@ -21,7 +21,6 @@ after_build:
   - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
   - git config --global user.name %APPVEYOR_REPO_COMMIT_AUTHOR%
   - bash -c "git commit -a -m '%APPVEYOR_REPO_COMMIT_MESSAGE%' ; exit 0"
-  - git log
 
 on_success:
   - git config --global credential.helper store
