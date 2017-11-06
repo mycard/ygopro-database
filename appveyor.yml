@@ -17,7 +17,7 @@ build_script:
 
 after_build:
   - git checkout dump
-  - cp -r dumps locales
+  - cp -rf dumps/* locales/
 
   - git config --global user.name $env:APPVEYOR_REPO_COMMIT_AUTHOR
   - git config --global user.email $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL
