@@ -1,0 +1,31 @@
+version: '{build}'
+skip_tags: true
+
+environment:
+  access_token:
+    secure: DOOS4g7CT8ctOgiMr62K56qQ1FO6s2ESpqNZlhf8F4nomemvvwxV/pRj9nbKmtjR
+
+install:
+  - git submodule update --init --recursive
+  
+  - bash -c "curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://sqlite.org/2017/sqlite-tools-win32-x86-3210000.zip ; exit 0"
+  - 7z x sqlite-tools-win32-x86-3210000.zip
+  - move sqlite-tools-win32-x86-3210000/sqlite3.exe .
+  
+  - find . -name "*.cdb" -type f -print0 | xargs -0 -I {} sh -c 'n={}; mkdir -p "dumps/$n"; ./sqlite3 "$n" .dump > "dumps/$n.sql"'
+
+after_build:
+  - git checkout dump
+  - cp -r dumps/locales .
+
+  - git config --global user.name $env:APPVEYOR_REPO_COMMIT_AUTHOR
+  - git config --global user.email $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL
+  - git config --global credential.helper store
+  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - bash -c "git commit -a -m '$env:APPVEYOR_REPO_COMMIT_MESSAGE' ; exit 0"
+  - git push origin dump
+
+test: off
+
+cache:
+  - sqlite-tools-win32-x86-3210000.zip
