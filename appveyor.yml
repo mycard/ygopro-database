@@ -14,6 +14,8 @@ install:
   
 build_script:
   - cd %BUILD_PATH%
+  - find --help
+  - find /?
   - find . -name "*.cdb" -type f -print0 | xargs -0 -I {} sh -c 'n={}; mkdir -p "dumps/$n"; ./sqlite3 "$n" .dump > "dumps/$n.sql"'
 
 after_build:
