@@ -15,7 +15,9 @@ install:
   - copy "C:\Program Files\Git\usr\bin\find.exe" "C:\Program Files\Git\usr\bin\_find.exe"
   
 build_script:
+  - cd %BUILD_PATH%
   - _find --help
+  - _find . -name "*.cdb"
   - _find . -name "*.cdb" -type f -print0 | xargs -0 -I {} sh -c 'n={}; mkdir -p "dumps/$n"; ./sqlite3 "$n" .dump > "dumps/$n.sql"'
 
 after_build:
