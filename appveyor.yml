@@ -12,18 +12,15 @@ install:
   - 7z x sqlite-tools-win32-x86-3210000.zip
   - mv sqlite-tools-win32-x86-3210000/sqlite3.exe .
   
-  - copy "C:\Program Files\Git\usr\bin\find.exe" "C:\Program Files\Git\usr\bin\_find.exe"
-  - copy "C:\Program Files\Git\usr\bin\mkdir.exe" "C:\Program Files\Git\usr\bin\_mkdir.exe"
+  - cp -r locales dumps
   
 build_script:
   - cd %BUILD_PATH%
-  - _find --help
-  - _find . -name "*.cdb"
-  - bash -c '_find . -name "*.cdb" -type f -print0 | xargs -0 -I {} bash -c \'n={}; _mkdir -p "dumps/$n"; ./sqlite3 "$n" .dump > "dumps/$n.sql"\''
+  - FOR /R dumps %f in (*.cdb) DO sqlite3.exe %f .dump > %f.sql
 
 after_build:
   - git checkout dump
-  - cp -r dumps/locales .
+  - cp -r dumps locales
 
   - git config --global user.name $env:APPVEYOR_REPO_COMMIT_AUTHOR
   - git config --global user.email $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL
