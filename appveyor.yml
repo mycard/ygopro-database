@@ -19,11 +19,11 @@ after_build:
   - git checkout dump
   - cp -rf dumps/* locales/
 
-  - git config --global user.name $($env:APPVEYOR_REPO_COMMIT_AUTHOR)
-  - git config --global user.email $($env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL)
+  - git config --global user.name %APPVEYOR_REPO_COMMIT_AUTHOR%
+  - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - bash -c "git commit -a -m '$($env:APPVEYOR_REPO_COMMIT_MESSAGE)' ; exit 0"
+  - bash -c "git commit -a -m '%APPVEYOR_REPO_COMMIT_MESSAGE%' ; exit 0"
   - git push origin dump
 
 test: off
