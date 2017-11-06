@@ -12,13 +12,10 @@ install:
   - 7z x sqlite-tools-win32-x86-3210000.zip
   - mv sqlite-tools-win32-x86-3210000/sqlite3.exe .
   
+  - copy "C:\Program Files\Git\usr\bin\find.exe" "C:\Program Files\Git\usr\bin\_find.exe"
+  
 build_script:
-  - echo %PATH%
-  - cd %BUILD_PATH%
-  - find /?
-  - bash -c 'find /?'
-  - bash -c 'find --help'
-  - find . -name "*.cdb" -type f -print0 | xargs -0 -I {} sh -c 'n={}; mkdir -p "dumps/$n"; ./sqlite3 "$n" .dump > "dumps/$n.sql"'
+  - _find . -name "*.cdb" -type f -print0 | xargs -0 -I {} sh -c 'n={}; mkdir -p "dumps/$n"; ./sqlite3 "$n" .dump > "dumps/$n.sql"'
 
 after_build:
   - git checkout dump
