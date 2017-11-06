@@ -1,5 +1,4 @@
 version: '{build}'
-skip_tags: true
 
 environment:
   access_token:
