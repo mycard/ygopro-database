@@ -1,0 +1,57 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  GIT_DEPTH: "1"
+
+get_lflist:
+  stage: build
+  script:
+    - apt update;apt -y install wget
+    - wget -O lflist.conf https://github.com/mycard/ygopro/raw/server/lflist.conf
+    - ls locales | xargs -I {} cp ./lflist.conf ./locales/{}/
+    - cp -rf locales dist
+  artifacts:
+    paths:
+      - dist/
+  tags:
+    - linux
+
+upload_to_minio_latest:
+  stage: deploy
+  dependencies:
+    - get_lflist
+  tags: 
+    - linux
+  image: python
+  script:
+    - pip install -U awscli
+    - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/ygopro-database
+  only:
+    - master
+
+upload_to_minio_oversea:
+  stage: deploy
+  dependencies:
+    - get_lflist
+  tags: 
+    - linux
+  image: python
+  script:
+    - pip install -U awscli
+    - aws s3 --endpoint=https://water.mycard.moe:9777 sync --delete dist/ s3://mycard/ygopro-database
+  only:
+    - master
+upload_to_minio_rainbow:
+  stage: deploy
+  dependencies:
+    - get_lflist
+  tags: 
+    - linux
+  image: python
+  script:
+    - pip install -U awscli
+    - aws s3 --endpoint=https://rainbow-minio.moestart.com:9777 sync --delete dist/ s3://mycard/ygopro-database
+  only:
+    - master
