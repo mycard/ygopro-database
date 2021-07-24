@@ -9,7 +9,7 @@ get_lflist:
   stage: build
   script:
     - apt update;apt -y install wget sqlite3
-    - wget -O lflist.conf https://github.com/mycard/ygopro/raw/server/lflist.conf
+    - wget -O lflist.conf https://code.mycard.moe/mycard/ygopro/-/raw/master/lflist.conf
     - ls locales | xargs -I {} bash -c 'cp ./lflist.conf ./locales/{}/ ; sqlite3 ./locales/{}/cards.cdb .dump > ./locales/{}/cards.sql'
     - cp -rf locales dist
   artifacts:
