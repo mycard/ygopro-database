@@ -31,18 +31,6 @@ upload_to_minio_latest:
   only:
     - master
 
-upload_to_minio_oversea:
-  stage: deploy
-  dependencies:
-    - get_lflist
-  tags: 
-    - linux
-  image: python
-  script:
-    - pip install -U awscli
-    - aws s3 --endpoint=https://water.mycard.moe:9777 sync --delete dist/ s3://mycard/ygopro-database
-  only:
-    - master
 upload_to_minio_rainbow:
   stage: deploy
   dependencies:
