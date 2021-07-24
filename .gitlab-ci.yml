@@ -24,9 +24,7 @@ upload_to_minio_latest:
     - get_lflist
   tags: 
     - linux
-  image: python
   script:
-    - pip install -U awscli
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/ygopro-database
   only:
     - master
@@ -37,9 +35,7 @@ upload_to_minio_rainbow:
     - get_lflist
   tags: 
     - linux
-  image: python
   script:
-    - pip install -U awscli
     - aws s3 --endpoint=https://rainbow-minio.moestart.com:9777 sync --delete dist/ s3://mycard/ygopro-database
   only:
     - master
