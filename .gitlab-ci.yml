@@ -29,13 +29,3 @@ upload_to_minio_latest:
   only:
     - master
 
-upload_to_minio_rainbow:
-  stage: deploy
-  dependencies:
-    - get_lflist
-  tags: 
-    - linux
-  script:
-    - aws s3 --endpoint=https://rainbow-minio.moestart.com:9777 sync --delete dist/ s3://mycard/ygopro-database
-  only:
-    - master
