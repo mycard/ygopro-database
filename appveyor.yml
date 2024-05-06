@@ -19,8 +19,9 @@ build_script:
 for:
 -
   branches:
-  only:
-    - master
+    only:
+      - master
+
   after_build:
     - git checkout dump
     - cp -rf dumps/* locales/
