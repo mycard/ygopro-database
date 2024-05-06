@@ -10,7 +10,6 @@ test: off
 install:
   - bash -c "curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://sqlite.org/2024/sqlite-tools-win-x64-3450300.zip ; exit 0"
   - 7z x sqlite-tools-win-x64-3450300.zip
-  - mv sqlite-tools-win-x64-3450300/sqlite3.exe .
   - cp -r locales dumps
   
 build_script:
