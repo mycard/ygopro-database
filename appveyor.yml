@@ -16,6 +16,7 @@ install:
 build_script:
   - FOR /R dumps %%f in (*.cdb) DO sqlite3.exe %%f .dump > %%f.sql
 
+for:
 -
   branches:
   only:
