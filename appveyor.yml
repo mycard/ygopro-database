@@ -22,7 +22,7 @@ for:
       - master
 
   after_build:
-    - git fetch origin dump:dump
+    - git fetch --depth 1 origin dump:dump
     - git checkout dump
     - cp -rf dumps/* locales/
     - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
