@@ -4,7 +4,7 @@ environment:
   access_token:
     secure: wxAvRgqg8ErfZm05ESB2zJxjwhny9wS0kRgK8TBDl2UeXnA06tqZPtNkwfRJc9SE
 
-shallow_clone: true
+clone_depth: 1
 test: off
 
 install:
@@ -22,6 +22,7 @@ for:
       - master
 
   after_build:
+    - git fetch origin dump:dump
     - git checkout dump
     - cp -rf dumps/* locales/
     - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
