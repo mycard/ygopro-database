@@ -4,30 +4,33 @@ environment:
   access_token:
     secure: wxAvRgqg8ErfZm05ESB2zJxjwhny9wS0kRgK8TBDl2UeXnA06tqZPtNkwfRJc9SE
 
+clone_depth: 1
+test: off
+
 install:
-  - bash -c "curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://sqlite.org/2017/sqlite-tools-win32-x86-3210000.zip ; exit 0"
-  - 7z x sqlite-tools-win32-x86-3210000.zip
-  - mv sqlite-tools-win32-x86-3210000/sqlite3.exe .
-  
+  - bash -c "curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://sqlite.org/2024/sqlite-tools-win-x64-3450300.zip ; exit 0"
+  - 7z x sqlite-tools-win-x64-3450300.zip
   - cp -r locales dumps
   
 build_script:
   - FOR /R dumps %%f in (*.cdb) DO sqlite3.exe %%f .dump > %%f.sql
 
-after_build:
-  - git checkout dump
-  - cp -rf dumps/* locales/
-  
-  - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
-  - git config --global user.name %APPVEYOR_REPO_COMMIT_AUTHOR%
-  - bash -c "git commit -a -m '%APPVEYOR_REPO_COMMIT_MESSAGE%' ; exit 0"
+for:
+-
+  branches:
+    only:
+      - master
 
-on_success:
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git push origin dump
-
-test: off
+  after_build:
+    - git fetch --depth 1 origin dump:dump
+    - git checkout dump
+    - cp -rf dumps/* locales/
+    - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
+    - git config --global user.name %APPVEYOR_REPO_COMMIT_AUTHOR%
+    - bash -c "git commit -a -m '%APPVEYOR_REPO_COMMIT_MESSAGE%' ; exit 0"
+    - git config --global credential.helper store
+    - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+    - git push origin dump
 
 cache:
-  - sqlite-tools-win32-x86-3210000.zip
+  - sqlite-tools-win-x64-3450300.zip
