@@ -31,6 +31,7 @@ for:
     - git config --global credential.helper store
     - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
     - git push origin dump
+    - wtf
 
 cache:
   - sqlite-tools-win-x64-3450300.zip
