@@ -21,8 +21,7 @@ for:
     only:
       - master
 
-  after_build:
-    - |
+  after_build: |
       if "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (
         git fetch --depth 1 origin dump:dump &&
         git checkout dump &&
