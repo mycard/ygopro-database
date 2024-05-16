@@ -22,6 +22,7 @@ for:
       - master
 
   after_build: |
+    echo '1111';
     bash -c ' if [ -z "$APPVEYOR_PULL_REQUEST_NUMBER" ]; then \
       git fetch --depth 1 origin dump:dump ; \
       git checkout dump ; \
