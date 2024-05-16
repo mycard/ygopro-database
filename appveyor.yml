@@ -24,12 +24,13 @@ for:
   after_build:
     - ps: |
         if(-not $env:appveyor_pull_request_number) {
+          $env:GIT_REDIRECT_STDERR = '2>&1'
           git fetch --depth 1 origin dump:dump
           git checkout dump
           Copy-Item -Path .\dumps\* -Destination .\locales\ -Recurse -Force
           git config --global user.email $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL
           git config --global user.name $env:APPVEYOR_REPO_COMMIT_AUTHOR
-          git commit -a -m $env:APPVEYOR_REPO_COMMIT_MESSAGE
+          try { git commit -a -m $env:APPVEYOR_REPO_COMMIT_MESSAGE } catch { Write-Output "Nothing Changed" }
           git config --global credential.helper store
           Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
           git push origin dump
