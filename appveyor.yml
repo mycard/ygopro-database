@@ -22,15 +22,17 @@ for:
       - master
 
   after_build:
-    - git fetch --depth 1 origin dump:dump
-    - git checkout dump
-    - cp -rf dumps/* locales/
-    - git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
-    - git config --global user.name %APPVEYOR_REPO_COMMIT_AUTHOR%
-    - bash -c "git commit -a -m '%APPVEYOR_REPO_COMMIT_MESSAGE%' ; exit 0"
-    - git config --global credential.helper store
-    - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-    - git push origin dump
+    - if "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (
+        git fetch --depth 1 origin dump:dump
+        git checkout dump
+        cp -rf dumps/* locales/
+        git config --global user.email %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%
+        git config --global user.name %APPVEYOR_REPO_COMMIT_AUTHOR%
+        bash -c "git commit -a -m '%APPVEYOR_REPO_COMMIT_MESSAGE%' ; exit 0"
+        git config --global credential.helper store
+        echo https://%access_token%:x-oauth-basic@github.com >> %USERPROFILE%\.git-credentials
+        git push origin dump
+      )
 
 cache:
   - sqlite-tools-win-x64-3450300.zip
