@@ -21,19 +21,20 @@ for:
     only:
       - master
 
-  after_build: |
-    echo '1111';
-    bash -c ' if [ -z "$APPVEYOR_PULL_REQUEST_NUMBER" ]; then \
-      git fetch --depth 1 origin dump:dump ; \
-      git checkout dump ; \
-      cp -rf dumps/* locales/ ; \
-      git config --global user.email $APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL ; \
-      git config --global user.name $APPVEYOR_REPO_COMMIT_AUTHOR ; \
-      bash -c "git commit -a -m '$APPVEYOR_REPO_COMMIT_MESSAGE' ; exit 0 " ; \
-      git config --global credential.helper store ; \
-      echo https://${access_token}:x-oauth-basic@github.com >> $HOME/.git-credentials ; \
-      git push origin dump ; \
-    fi'
+  after_build:
+    - ps: |
+      if(-not $env:appveyor_pull_request_number) {
+        git fetch --depth 1 origin dump:dump
+        git checkout dump
+        Copy-Item -Path .\dumps\* -Destination .\locales\ -Recurse -Force
+        git config --global user.email $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL
+        git config --global user.name $env:APPVEYOR_REPO_COMMIT_AUTHOR
+        git commit -a -m $env:APPVEYOR_REPO_COMMIT_MESSAGE
+        git config --global credential.helper store
+        Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+        git push origin dump
+      }
+
 
 cache:
   - sqlite-tools-win-x64-3450300.zip
