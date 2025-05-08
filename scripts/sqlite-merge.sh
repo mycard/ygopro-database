@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Locate sqlite3 binary
 if [ -n "$SQLITE3_BIN" ]; then
