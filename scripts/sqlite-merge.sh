@@ -47,7 +47,7 @@ if grep '^<<<<<<<' "$TMPDIR/merged.sql" >/dev/null; then
     exit 1  # 保留冲突文件，人工处理，故不 cleanup
 fi
 
-echo '' > "$RESULT"
+rm -f "$RESULT"
 "$SQLITE3" "$RESULT" < "$TMPDIR/merged.sql" || {
     echo "❌ Failed to import merged SQL"
     echo "   --> $CONFLICT_FILE"
