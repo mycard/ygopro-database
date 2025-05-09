@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Input SQLite database path
+DB="$1"
+
+# Locate sqlite3 binary
+if [ -n "$SQLITE3_BIN" ]; then
+  SQLITE3="$SQLITE3_BIN"
+elif command -v sqlite3 >/dev/null 2>&1; then
+  SQLITE3="sqlite3"
+elif command -v sqlite3.exe >/dev/null 2>&1; then
+  SQLITE3="sqlite3.exe"
+elif [ -x "./bin/sqlite3" ]; then
+  SQLITE3="./bin/sqlite3"
+elif [ -x "./bin/sqlite3.exe" ]; then
+  SQLITE3="./bin/sqlite3.exe"
+else
+  echo "❌ Error: sqlite3 binary not found."
+  echo "Please set the SQLITE3_BIN environment variable or install sqlite3."
+  exit 1
+fi
+
+# Run .dump and filter out noise
+"$SQLITE3" "$DB" .dump | grep -v '^--' | grep -v '^PRAGMA'
