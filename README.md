@@ -20,7 +20,7 @@ Upon merge conflicts, the merge driver would create a `cards.cdb.sql` file in th
 
 ### Text diverting
 
-Usually the card texts are presented with new lines, while some YGOPro clients or card picture generators need new lines, and some others need them instead. This script will convert the text to the format you need.
+Usually the card texts are presented with new lines, while some YGOPro clients or card picture generators need new lines, and some others does not. This script will convert the text to the format you need.
 
 The script is located at `scripts/divert.sh`, which would create `diverted/<locale>-newline/cards.cdb` and `diverted/<locale>-nonewline/cards.cdb` files.
 
