@@ -1,3 +1,4 @@
 lflist.conf
 *.sql
 /bin
+/diverted
