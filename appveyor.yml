@@ -17,7 +17,7 @@ build_script:
 
 after_build:
   - ps: |
-      if(-not $env:appveyor_pull_request_number) {
+      if(-not $env:appveyor_pull_request_number -and $env:APPVEYOR_REPO_BRANCH -eq 'master') {
         $env:GIT_REDIRECT_STDERR = '2>&1'
         git fetch --depth 1 origin dump:dump
         git checkout dump
