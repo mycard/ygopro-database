@@ -12,6 +12,8 @@ get_lflist:
     - wget -O lflist.conf https://code.mycard.moe/mycard/ygopro/-/raw/master/lflist.conf
     - ls locales | xargs -I {} bash -c 'cp ./lflist.conf ./locales/{}/ ; sqlite3 ./locales/{}/cards.cdb .dump > ./locales/{}/cards.sql'
     - cp -rf locales dist
+    - ./scripts/divert.sh
+    - cp -rf diverted dist
   artifacts:
     paths:
       - dist/
@@ -28,4 +30,3 @@ upload_to_minio_latest:
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync --delete dist/ s3://mycard/ygopro-database
   only:
     - master
-
