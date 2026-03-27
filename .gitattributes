@@ -1,0 +1,1 @@
+*.cdb merge=sqlite-merge diff=sqlite-diff
