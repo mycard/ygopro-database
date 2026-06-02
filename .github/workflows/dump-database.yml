@@ -22,6 +22,7 @@ jobs:
           find dumps -name "*.cdb" -type f | while read file; do
             sqlFile="${file}.sql"
             sqlite3 "$file" ".dump" > "$sqlFile"
+            echo "Dumped $file to $sqlFile"
           done
 
       - name: Push to dump branch
