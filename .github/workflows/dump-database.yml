@@ -1,0 +1,42 @@
+name: Dump Databases
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Copy locales to dumps directory
+        run: |
+          cp -r locales dumps
+
+      - name: Dump databases
+        run: |
+          find dumps -name "*.cdb" -type f | while read file; do
+            sqlFile="${file}.sql"
+            sqlite3 "$file" ".dump" > "$sqlFile"
+          done
+
+      - name: Push to dump branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          set -e
+          git fetch --depth 1 origin dump:dump
+          git checkout dump
+          cp -r dumps/* locales/
+          git config --global user.email "${{ github.event.pusher.email }}"
+          git config --global user.name "${{ github.event.pusher.name }}"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "${{ github.event.head_commit.message }}"
+            git push origin dump
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
