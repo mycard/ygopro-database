@@ -32,15 +32,12 @@ jobs:
           git fetch --depth 1 origin dump:dump
           git checkout dump
           cp -r dumps/* locales/
-          git config --global user.email "${{ github.event.pusher.email }}"
-          git config --global user.name "${{ github.event.pusher.name }}"
           git add -A
           if ! git diff --cached --quiet; then
+            git config --global user.email "${{ github.event.pusher.email }}"
+            git config --global user.name "${{ github.event.pusher.name }}"
             git commit -m "${{ github.event.head_commit.message }}"
             git push origin dump
           else
-            echo "No changes to commit"
             git status
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
