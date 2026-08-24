@@ -7399,6 +7399,7 @@ INSERT INTO texts VALUES(48094997,'Battle Footballer','A cyborg with high defens
 INSERT INTO texts VALUES(48109103,'Kappa Avenger','An amphibian that sold his soul for unlimited power to avenge his late friend.','','','','','','','','','','','','','','','','');
 INSERT INTO texts VALUES(48115277,'Blockman','You can Tribute this card; Special Summon in Defense Position, a number of "Block Tokens" (Rock-Type/EARTH/Level 4/ATK 1000/DEF 1500) equal to the number of your turns this card has been face-up on your field. These Tokens cannot declare an attack.','Special Summon','','','','','','','','','','','','','','','');
 INSERT INTO texts VALUES(48115278,'Block Token','Special Summoned with the effect of "Blockman." This Token cannot declare an attack.','','','','','','','','','','','','','','','','');
+INSERT INTO texts VALUES(48128081,'Destined Duel','When this card is activated: Each player can Special Summon 1 monster from their hand in Attack Position, then if there are any other face-up monsters on the field, change all of them to face-down Defense Position. For the rest of this turn after this card resolves, you cannot Normal or Special Summon. Once per turn, when your monster declares an attack: You can negate the attack, and if you do, destroy 1 face-down card your opponent controls. Once per turn, during your opponent''s End Phase: Return this card to the hand.','Activate','Destroy','To hand','Special Summon from hand?','','','','','','','','','','','','');
 INSERT INTO texts VALUES(48130397,'Super Polymerization','Discard 1 card; Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from either field. Neither player can activate cards or effects in response to this card''s activation.','','','','','','','','','','','','','','','','');
 INSERT INTO texts VALUES(48130398,'Super Polymerization','Discard 1 card; Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from either field. Neither player can activate cards or effects in response to this card''s activation.','','','','','','','','','','','','','','','','');
 INSERT INTO texts VALUES(48135190,'Gravelstorm','Target 1 Spell/Trap on each field; return them to the hand.','','','','','','','','','','','','','','','','');
@@ -22380,6 +22381,7 @@ INSERT INTO datas VALUES(48094997,3,0,0,17,1000,2100,4,32,4,0);
 INSERT INTO datas VALUES(48109103,1,0,0,17,1200,900,3,64,2,0);
 INSERT INTO datas VALUES(48115277,3,0,0,33,1000,1500,4,256,1,786432);
 INSERT INTO datas VALUES(48115278,3,0,0,16401,1000,1500,4,256,1,0);
+INSERT INTO datas VALUES(48128081,1,0,0,131074,0,0,0,0,0,265235);
 INSERT INTO datas VALUES(48130397,3,0,70,65538,0,0,0,0,0,268697608);
 INSERT INTO datas VALUES(48130398,3,48130397,70,65538,0,0,0,0,0,268697608);
 INSERT INTO datas VALUES(48135190,3,0,0,4,0,0,0,0,0,16);
