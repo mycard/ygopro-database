@@ -1,0 +1,3 @@
+# What of a commit a card set of ygopro-deploy is (its DESIGN.md section 11):
+# the servers read only a database's numbers, the same in every locale.
+root locales/zh-CN
